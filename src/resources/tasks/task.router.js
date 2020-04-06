@@ -8,7 +8,7 @@ const statusCode = require('../statusCodes/resonsesStatusData');
 router.route('/:boardId/tasks').get(async (req, res) => {
   const { boardId } = req.params;
   const tasks = await tasksService.getAll(boardId);
-  res.json(tasks);
+  res.status(statusCode.SUCCESS).json(tasks);
 });
 
 router.route('/:boardId/tasks/:id').get(async (req, res) => {

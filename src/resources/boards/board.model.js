@@ -7,8 +7,8 @@ class Board {
     this.columns = columns;
   }
 
-  static fromRequest(json) {
-    const { title, columns } = json;
+  static fromRequest(requestData) {
+    const { title, columns } = requestData;
     const user = new Board({ title, columns });
     return user;
   }

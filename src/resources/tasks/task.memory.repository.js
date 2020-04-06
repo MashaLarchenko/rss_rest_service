@@ -103,7 +103,7 @@ const deleteTaskfromBoard = boardId => {
   return [];
 };
 
-const unassignTask = userId => {
+const unassignTask = async userId => {
   return findByUserId(userId);
 };
 

@@ -53,7 +53,7 @@ const createBoard = async newBoard => {
 };
 
 const updateBoard = async (id, dataForUpdate) => {
-  const findBoard = await findById(id);
+  const findBoard = await getBoardById(id);
   const updatedBoard = {
     ...findBoard,
     ...dataForUpdate
@@ -64,7 +64,7 @@ const updateBoard = async (id, dataForUpdate) => {
 };
 
 const deleteBoard = async id => {
-  const deletedBoard = await findById(id);
+  const deletedBoard = await getBoardById(id);
   if (deletedBoard) {
     const index = BoardsData.indexOf(deletedBoard);
     BoardsData.splice(index, 1);

@@ -19,9 +19,9 @@ class Task {
     this.columnId = columnId;
   }
 
-  static fromRequest(boardId, json) {
+  static fromRequest(boardId, requestData) {
     const user = new Task({
-      ...json,
+      ...requestData,
       boardId
     });
     return user;

@@ -1,5 +1,4 @@
 const User = require('./user.model.js');
-const tasksRepo = require('../tasks/task.memory.repository');
 
 const UsersData = [
   new User({ id: '1', name: 'Masha', login: 'masha', passwold: '122345n' }),
@@ -49,7 +48,6 @@ const updateUser = async (id, dataForUpdate) => {
 const deleteUser = async id => {
   const deletedUser = await findById(id);
   if (deletedUser) {
-    tasksRepo.unassignTask(id);
     const index = UsersData.indexOf(deletedUser);
     UsersData.splice(index, 1);
   }
