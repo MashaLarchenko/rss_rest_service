@@ -4,7 +4,7 @@ const TasksData = [
   new Task({
     id: '1',
     title: 'Task1',
-    order: '0',
+    order: 0,
     description: 'task1',
     userId: '1',
     boardId: '1',
@@ -13,7 +13,7 @@ const TasksData = [
   new Task({
     id: '2',
     title: 'Task2',
-    order: '1',
+    order: 1,
     description: 'task2',
     userId: '2',
     boardId: '2',
@@ -22,7 +22,7 @@ const TasksData = [
   new Task({
     id: '3',
     title: 'Task3',
-    order: '2',
+    order: 2,
     description: 'task3',
     userId: '3',
     boardId: '3',
