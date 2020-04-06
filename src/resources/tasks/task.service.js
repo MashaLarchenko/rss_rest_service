@@ -11,10 +11,13 @@ const updateTask = (id, boardId, param) =>
 
 const deleteTask = (id, boardId) => tasksRepo.deleteTask(id, boardId);
 
+const deleteTaskfromBoard = boardId => tasksRepo.deleteTaskfromBoard(boardId);
+
 module.exports = {
   getAll,
   getTaskById,
   createTask,
   updateTask,
-  deleteTask
+  deleteTask,
+  deleteTaskfromBoard
 };

@@ -1,8 +1,6 @@
 const Board = require('./board.model.js');
 const Column = require('./column.model.js');
 
-const tasksRepo = require('../tasks/task.memory.repository');
-
 const BoardsData = [
   new Board({
     id: '1',
@@ -68,7 +66,6 @@ const updateBoard = async (id, dataForUpdate) => {
 const deleteBoard = async id => {
   const deletedBoard = await findById(id);
   if (deletedBoard) {
-    tasksRepo.deleteTaskfromBoard(id);
     const index = BoardsData.indexOf(deletedBoard);
     BoardsData.splice(index, 1);
   }

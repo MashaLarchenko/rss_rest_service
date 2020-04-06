@@ -1,4 +1,5 @@
 const boardsRepo = require('./board.memory.repository');
+const taskService = require('../tasks/task.service');
 
 const getAll = () => boardsRepo.getAll();
 
@@ -8,7 +9,10 @@ const createBoard = board => boardsRepo.createBoard(board);
 
 const updateBoard = (id, param) => boardsRepo.updateBoard(id, param);
 
-const deleteBoard = id => boardsRepo.deleteBoard(id);
+const deleteBoard = async id => {
+  await taskService.deleteTaskfromBoard(id);
+  return boardsRepo.deleteBoard(id);
+};
 
 module.exports = {
   getAll,
