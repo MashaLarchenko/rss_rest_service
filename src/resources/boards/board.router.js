@@ -2,8 +2,8 @@ const router = require('express').Router();
 const Board = require('./board.model');
 const boardsService = require('./board.service');
 const boardSchemas = require('./board.schema');
-const validator = require('../validator/validator');
-const statusCode = require('../statusCodes/resonsesStatusData');
+const validator = require('../../validator/validator');
+const statusCode = require('../../statusCodes/resonsesStatusData');
 
 router.route('/').get(async (req, res) => {
   const boards = await boardsService.getAll();

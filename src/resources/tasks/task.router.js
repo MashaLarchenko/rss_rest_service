@@ -2,8 +2,8 @@ const router = require('express').Router();
 const Task = require('./task.model');
 const tasksService = require('./task.service');
 const taskSchemas = require('./task.schema');
-const validator = require('../validator/validator');
-const statusCode = require('../statusCodes/resonsesStatusData');
+const validator = require('../../validator/validator');
+const statusCode = require('../../statusCodes/resonsesStatusData');
 
 router.route('/:boardId/tasks').get(async (req, res) => {
   const { boardId } = req.params;
