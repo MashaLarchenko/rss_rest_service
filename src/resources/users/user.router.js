@@ -3,19 +3,20 @@ const User = require('./user.model');
 const usersService = require('./user.service');
 const usersSchemas = require('./schema');
 const validator = require('../validator/validator');
+const statusCode = require('../statusCodes/resonsesStatusData');
 
 router.route('/').get(async (req, res) => {
   const users = await usersService.getAll();
-  res.json(users.map(User.toResponse));
+  res.status(statusCode.SUCCESS).json(users.map(User.toResponse));
 });
 
 router.route('/:id').get(async (req, res) => {
   const { id } = req.params;
   const user = await usersService.getUserById(id);
   if (user !== undefined) {
-    res.json(User.toResponse(user));
+    res.status(statusCode.SUCCESS).json(User.toResponse(user));
   } else {
-    res.status(404).end();
+    res.status(statusCode.NOT_FOUND).json(`User with id ${id} not found`);
   }
 });
 
@@ -25,7 +26,7 @@ router
     validator.validateSchemaPost(usersSchemas.schemaForPost),
     async (req, res) => {
       const user = await usersService.createUser(User.fromRequest(req.body));
-      res.json(User.toResponse(user));
+      res.status(statusCode.SUCCESS).json(User.toResponse(user));
     }
   );
 
@@ -36,7 +37,7 @@ router
     async (req, res) => {
       const { id } = req.params;
       const user = await usersService.updateUser(id, req.body);
-      res.json(user);
+      res.status(statusCode.SUCCESS).json(user);
     }
   );
 
@@ -44,9 +45,9 @@ router.route('/:id').delete(async (req, res) => {
   const { id } = req.params;
   const user = await usersService.deleteUser(id);
   if (user !== undefined) {
-    res.status(204).end();
+    res.status(204).json(`User with id ${id} has been succesfully deleted`);
   } else {
-    res.status(404).end();
+    res.status(statusCode.NOT_FOUND).json(`User with id ${id} not found`);
   }
 });
 

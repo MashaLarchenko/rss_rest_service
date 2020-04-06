@@ -6,7 +6,7 @@ const validateSchemaPost = schema => {
     });
 
     if (error) {
-      res.status(400).end();
+      res.status(400).json('Bad request');
     } else return next();
   };
 };
@@ -19,7 +19,7 @@ const validateSchemaPut = schema => {
     });
 
     if (error) {
-      res.status(400).end();
+      res.status(400).json('Bad request');
     } else return next();
   };
 };
