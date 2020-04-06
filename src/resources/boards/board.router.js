@@ -25,8 +25,9 @@ router
   .post(
     validator.validateSchemaPost(boardSchemas.schemaForPost),
     async (req, res) => {
+      const requestData = req.body;
       const board = await boardsService.createBoard(
-        Board.fromRequest(req.body)
+        Board.fromRequest(requestData)
       );
       res.status(statusCode.SUCCESS).json(board);
     }
@@ -38,7 +39,8 @@ router
     validator.validateSchemaPut(boardSchemas.schemaForPut),
     async (req, res) => {
       const { id } = req.params;
-      const board = await boardsService.updateBoard(id, req.body);
+      const requestData = req.body;
+      const board = await boardsService.updateBoard(id, requestData);
       res.status(statusCode.SUCCESS).json(board);
     }
   );

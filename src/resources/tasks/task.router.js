@@ -23,8 +23,9 @@ router.route('/:boardId/tasks/:id').get(async (req, res) => {
 
 router.route('/:boardId/tasks').post(async (req, res) => {
   const { boardId } = req.params;
+  const requestData = req.body;
   const task = await tasksService.createTask(
-    Task.fromRequest(boardId, req.body)
+    Task.fromRequest(boardId, requestData)
   );
   res.status(statusCode.SUCCESS).json(task);
 });
@@ -35,7 +36,8 @@ router
     validator.validateSchemaPut(taskSchemas.schemaForPut),
     async (req, res) => {
       const { id, boardId } = req.params;
-      const task = await tasksService.updateTask(id, boardId, req.body);
+      const requestData = req.body;
+      const task = await tasksService.updateTask(id, boardId, requestData);
       if (task !== undefined) {
         res.status(statusCode.SUCCESS).json(task);
       } else {

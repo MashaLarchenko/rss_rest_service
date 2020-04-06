@@ -25,7 +25,8 @@ router
   .post(
     validator.validateSchemaPost(usersSchemas.schemaForPost),
     async (req, res) => {
-      const user = await usersService.createUser(User.fromRequest(req.body));
+      const requestData = req.body;
+      const user = await usersService.createUser(User.fromRequest(requestData));
       res.status(statusCode.SUCCESS).json(User.toResponse(user));
     }
   );
@@ -36,7 +37,8 @@ router
     validator.validateSchemaPut(usersSchemas.schemaForPut),
     async (req, res) => {
       const { id } = req.params;
-      const user = await usersService.updateUser(id, req.body);
+      const requestData = req.body;
+      const user = await usersService.updateUser(id, requestData);
       if (user !== undefined) {
         res.status(statusCode.SUCCESS).json(user);
       } else {
