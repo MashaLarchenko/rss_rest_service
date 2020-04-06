@@ -34,13 +34,16 @@ const createUser = async newUser => {
 
 const updateUser = async (id, dataForUpdate) => {
   const findUser = await findById(id);
-  const updatedUser = {
-    ...findUser,
-    ...dataForUpdate
-  };
-  const index = UsersData.indexOf(findUser);
-  UsersData[index] = updatedUser;
-  return updatedUser;
+  if (findUser) {
+    const updatedUser = {
+      ...findUser,
+      ...dataForUpdate
+    };
+    const index = UsersData.indexOf(findUser);
+    UsersData[index] = updatedUser;
+    return updatedUser;
+  }
+  return findUser;
 };
 
 const deleteUser = async id => {

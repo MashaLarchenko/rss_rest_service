@@ -37,7 +37,11 @@ router
     async (req, res) => {
       const { id } = req.params;
       const user = await usersService.updateUser(id, req.body);
-      res.status(statusCode.SUCCESS).json(user);
+      if (user !== undefined) {
+        res.status(statusCode.SUCCESS).json(user);
+      } else {
+        res.status(statusCode.NOT_FOUND).json(`User with id ${id} not found`);
+      }
     }
   );
 
