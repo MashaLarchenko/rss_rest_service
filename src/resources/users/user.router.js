@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const User = require('./user.model');
 const usersService = require('./user.service');
-const usersSchemas = require('./schema');
+const usersSchemas = require('./users.schema');
 const validator = require('../validator/validator');
 const statusCode = require('../statusCodes/resonsesStatusData');
 

@@ -1,7 +1,7 @@
 const Board = require('./board.model.js');
 const Column = require('./column.model.js');
 
-const tasksRepo = require('../task/task.memory.repository');
+const tasksRepo = require('../tasks/task.memory.repository');
 
 const BoardsData = [
   new Board({

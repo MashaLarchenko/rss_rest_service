@@ -1,5 +1,5 @@
 const User = require('./user.model.js');
-const tasksRepo = require('../task/task.memory.repository');
+const tasksRepo = require('../tasks/task.memory.repository');
 
 const UsersData = [
   new User({ id: '1', name: 'Masha', login: 'masha', passwold: '122345n' }),
