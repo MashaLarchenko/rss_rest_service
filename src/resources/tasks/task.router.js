@@ -1,4 +1,4 @@
-const router = require('express').Router();
+const router = require('express').Router({ mergeParams: true });
 const Task = require('./task.model');
 const tasksService = require('./task.service');
 const taskSchemas = require('./task.schema');
@@ -6,7 +6,7 @@ const validator = require('../../validator/validator');
 const statusCode = require('../../statusCodes/resonsesStatusData');
 const catchErrors = require('../../errors/catchError');
 
-router.route('/:boardId/tasks').get(
+router.route('/').get(
   catchErrors(async (req, res) => {
     const { boardId } = req.params;
     const tasks = await tasksService.getAll(boardId);
@@ -14,7 +14,7 @@ router.route('/:boardId/tasks').get(
   })
 );
 
-router.route('/:boardId/tasks/:id').get(
+router.route('/:id').get(
   catchErrors(async (req, res) => {
     const { boardId, id } = req.params;
     const task = await tasksService.getTaskById(id, boardId);
@@ -26,7 +26,7 @@ router.route('/:boardId/tasks/:id').get(
   })
 );
 
-router.route('/:boardId/tasks').post(
+router.route('/').post(
   catchErrors(async (req, res) => {
     const { boardId } = req.params;
     const requestData = req.body;
@@ -37,7 +37,7 @@ router.route('/:boardId/tasks').post(
   })
 );
 
-router.route('/:boardId/tasks/:id').put(
+router.route('/:id').put(
   validator.validateSchemaPut(taskSchemas.schemaForPut),
   catchErrors(async (req, res) => {
     const { id, boardId } = req.params;
@@ -51,7 +51,7 @@ router.route('/:boardId/tasks/:id').put(
   })
 );
 
-router.route('/:boardId/tasks/:id').delete(
+router.route('/:id').delete(
   catchErrors(async (req, res) => {
     const { id, boardId } = req.params;
     const task = await tasksService.deleteTask(id, boardId);
