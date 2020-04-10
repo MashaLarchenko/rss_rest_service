@@ -20,7 +20,8 @@ const validateSchemaPut = schema => {
     });
 
     if (error) {
-      res.status(400).json('Bad request');
+      const { message } = error;
+      res.status(400).json(message);
     } else return next();
   };
 };
