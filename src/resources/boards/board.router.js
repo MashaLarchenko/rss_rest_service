@@ -1,16 +1,15 @@
 const router = require('express').Router();
+const { OK, NOT_FOUND } = require('http-status-codes');
 const Board = require('./board.model');
 const boardsService = require('./board.service');
 const boardSchemas = require('./board.schema');
 const validator = require('../../validator/validator');
-const statusCode = require('../../statusCodes/resonsesStatusData');
 const catchErrors = require('../../errors/catchError');
 
 router.route('/').get(
   catchErrors(async (req, res) => {
-    // throw new Error('fhrhrt');
     const boards = await boardsService.getAll();
-    res.status(statusCode.SUCCESS).json(boards);
+    res.status(OK).json(boards);
   })
 );
 
@@ -19,9 +18,9 @@ router.route('/:id').get(
     const { id } = req.params;
     const board = await boardsService.getBoardById(id);
     if (board !== undefined) {
-      res.status(statusCode.SUCCESS).json(board);
+      res.status(OK).json(board);
     } else {
-      res.status(statusCode.NOT_FOUND).json(`Board with id ${id} not found`);
+      res.status(NOT_FOUND).json(`Board with id ${id} not found`);
     }
   })
 );
@@ -33,7 +32,7 @@ router.route('/').post(
     const board = await boardsService.createBoard(
       Board.fromRequest(requestData)
     );
-    res.status(statusCode.SUCCESS).json(board);
+    res.status(OK).json(board);
   })
 );
 
@@ -43,7 +42,7 @@ router.route('/:id').put(
     const { id } = req.params;
     const requestData = req.body;
     const board = await boardsService.updateBoard(id, requestData);
-    res.status(statusCode.SUCCESS).json(board);
+    res.status(OK).json(board);
   })
 );
 
@@ -54,7 +53,7 @@ router.route('/:id').delete(
     if (board !== undefined) {
       res.status(204).json(`Board with id ${id} has been succesfully deleted`);
     } else {
-      res.status(statusCode.NOT_FOUND).json(`Board with id ${id} not found`);
+      res.status(NOT_FOUND).json(`Board with id ${id} not found`);
     }
   })
 );

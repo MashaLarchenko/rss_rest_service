@@ -1,15 +1,19 @@
 const router = require('express').Router();
+const { OK, NOT_FOUND } = require('http-status-codes');
 const User = require('./user.model');
 const usersService = require('./user.service');
 const usersSchemas = require('./users.schema');
 const validator = require('../../validator/validator');
-const statusCode = require('../../statusCodes/resonsesStatusData');
 const catchErrors = require('../../errors/catchError');
 
 router.route('/').get(
+  // () => {
+  //   throw new Error('MY_ERROR');
+  // },
   catchErrors(async (req, res) => {
     const users = await usersService.getAll();
-    res.status(statusCode.SUCCESS).json(users.map(User.toResponse));
+    // throw new Error('MY_ERROR');
+    res.status(OK).json(users.map(User.toResponse));
   })
 );
 
@@ -18,9 +22,9 @@ router.route('/:id').get(
     const { id } = req.params;
     const user = await usersService.getUserById(id);
     if (user !== undefined) {
-      res.status(statusCode.SUCCESS).json(User.toResponse(user));
+      res.status(OK).json(User.toResponse(user));
     } else {
-      res.status(statusCode.NOT_FOUND).json(`User with id ${id} not found`);
+      res.status(NOT_FOUND).json(`User with id ${id} not found`);
     }
   })
 );
@@ -30,7 +34,7 @@ router.route('/').post(
   catchErrors(async (req, res) => {
     const requestData = req.body;
     const user = await usersService.createUser(User.fromRequest(requestData));
-    res.status(statusCode.SUCCESS).json(User.toResponse(user));
+    res.status(OK).json(User.toResponse(user));
   })
 );
 
@@ -41,9 +45,9 @@ router.route('/:id').put(
     const requestData = req.body;
     const user = await usersService.updateUser(id, requestData);
     if (user !== undefined) {
-      res.status(statusCode.SUCCESS).json(user);
+      res.status(OK).json(user);
     } else {
-      res.status(statusCode.NOT_FOUND).json(`User with id ${id} not found`);
+      res.status(NOT_FOUND).json(`User with id ${id} not found`);
     }
   })
 );
@@ -55,7 +59,7 @@ router.route('/:id').delete(
     if (user !== undefined) {
       res.status(204).json(`User with id ${id} has been succesfully deleted`);
     } else {
-      res.status(statusCode.NOT_FOUND).json(`User with id ${id} not found`);
+      res.status(NOT_FOUND).json(`User with id ${id} not found`);
     }
   })
 );

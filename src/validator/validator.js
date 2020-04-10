@@ -1,3 +1,5 @@
+const { BAD_REQUEST } = require('http-status-codes');
+
 const validateSchemaPost = schema => {
   return async (req, res, next) => {
     const { error } = await schema.validate(req.body, {
@@ -7,7 +9,7 @@ const validateSchemaPost = schema => {
 
     if (error) {
       const { message } = error;
-      res.status(400).json(message);
+      res.status(BAD_REQUEST).json(message);
     } else return next();
   };
 };
@@ -21,7 +23,7 @@ const validateSchemaPut = schema => {
 
     if (error) {
       const { message } = error;
-      res.status(400).json(message);
+      res.status(BAD_REQUEST).json(message);
     } else return next();
   };
 };

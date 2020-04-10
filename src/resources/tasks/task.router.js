@@ -1,16 +1,16 @@
 const router = require('express').Router({ mergeParams: true });
+const { OK, NOT_FOUND } = require('http-status-codes');
 const Task = require('./task.model');
 const tasksService = require('./task.service');
 const taskSchemas = require('./task.schema');
 const validator = require('../../validator/validator');
-const statusCode = require('../../statusCodes/resonsesStatusData');
 const catchErrors = require('../../errors/catchError');
 
 router.route('/').get(
   catchErrors(async (req, res) => {
     const { boardId } = req.params;
     const tasks = await tasksService.getAll(boardId);
-    res.status(statusCode.SUCCESS).json(tasks);
+    res.status(OK).json(tasks);
   })
 );
 
@@ -19,9 +19,9 @@ router.route('/:id').get(
     const { boardId, id } = req.params;
     const task = await tasksService.getTaskById(id, boardId);
     if (task !== undefined) {
-      res.status(statusCode.SUCCESS).json(task);
+      res.status(OK).json(task);
     } else {
-      res.status(statusCode.NOT_FOUND).json(`Task with id ${id} not found`);
+      res.status(NOT_FOUND).json(`Task with id ${id} not found`);
     }
   })
 );
@@ -33,7 +33,7 @@ router.route('/').post(
     const task = await tasksService.createTask(
       Task.fromRequest(boardId, requestData)
     );
-    res.status(statusCode.SUCCESS).json(task);
+    res.status(OK).json(task);
   })
 );
 
@@ -44,9 +44,9 @@ router.route('/:id').put(
     const requestData = req.body;
     const task = await tasksService.updateTask(id, boardId, requestData);
     if (task !== undefined) {
-      res.status(statusCode.SUCCESS).json(task);
+      res.status(OK).json(task);
     } else {
-      res.status(statusCode.NOT_FOUND).json(`Task with id ${id} not found`);
+      res.status(NOT_FOUND).json(`Task with id ${id} not found`);
     }
   })
 );
@@ -58,7 +58,7 @@ router.route('/:id').delete(
     if (task !== undefined) {
       res.status(204).json(`Task with id ${id} has been succesfully deleted`);
     } else {
-      res.status(statusCode.NOT_FOUND).json(`Task with id ${id} not found`);
+      res.status(NOT_FOUND).json(`Task with id ${id} not found`);
     }
   })
 );
