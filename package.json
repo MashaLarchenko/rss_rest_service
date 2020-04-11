@@ -73,5 +73,10 @@
     "dirty-chai": "2.0.1",
     "jest": "24.9.0",
     "supertest": "4.0.2"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "src/logs/*"
+    ]
   }
 }

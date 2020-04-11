@@ -1,9 +1,9 @@
-const logger = require('./winstonLogger');
+const logger = require('./loggerConfig');
 
 const requestLogger = (req, res, next) => {
   const { method, originalUrl } = req;
-  const query = req.query ? JSON.stringify(req.query) : 'no query params';
-  const body = req.method !== 'GET' ? JSON.stringify(req.body) : 'no body';
+  const query = JSON.stringify(req.query);
+  const body = JSON.stringify(req.body);
   const time = new Date();
 
   logger.info('Request log', {

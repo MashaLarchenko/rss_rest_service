@@ -1,4 +1,4 @@
-const logger = require('../logger/winstonLogger');
+const { logger } = require('../logger');
 const { INTERNAL_SERVER_ERROR, getStatusText } = require('http-status-codes');
 
 const handleInternalError = (err, req, res) => {

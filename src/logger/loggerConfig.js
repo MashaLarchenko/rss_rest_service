@@ -11,29 +11,23 @@ const logger = createLogger({
   transports: [
     new transports.Console(),
     new transports.File({
-      filename: path.join(__dirname, '../log/error.log'),
+      filename: path.join(__dirname, '../../log/error.log'),
       level: 'error',
       format: format.combine(format.uncolorize(), format.json())
     }),
     new transports.File({
-      filename: path.join(__dirname, '../log/info.log'),
+      filename: path.join(__dirname, '../../log/info.log'),
       level: 'info',
       format: format.combine(format.uncolorize(), format.json())
     })
   ],
   exceptionHandlers: [
     new transports.File({
-      filename: path.join(__dirname, '../log/exceptions.log'),
+      filename: path.join(__dirname, '../../log/exceptions.log'),
       format: format.combine(format.uncolorize(), format.json())
     })
   ],
   exitOnError: true
 });
-
-logger.stream = {
-  write: info => {
-    logger.info(info);
-  }
-};
 
 module.exports = logger;

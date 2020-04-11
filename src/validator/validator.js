@@ -1,4 +1,5 @@
-const { BAD_REQUEST } = require('http-status-codes');
+const { BAD_REQUEST, getStatusText } = require('http-status-codes');
+const { logger } = require('../logger');
 
 const validateSchemaPost = schema => {
   return async (req, res, next) => {
@@ -9,6 +10,11 @@ const validateSchemaPost = schema => {
 
     if (error) {
       const { message } = error;
+      logger.error({
+        'error code': getStatusText(BAD_REQUEST),
+        url: `Error in POST request in ${req.originalUrl}`,
+        message
+      });
       res.status(BAD_REQUEST).json(message);
     } else return next();
   };
@@ -23,6 +29,11 @@ const validateSchemaPut = schema => {
 
     if (error) {
       const { message } = error;
+      logger.error({
+        'error code': getStatusText(BAD_REQUEST),
+        url: `Error in PUT request in ${req.originalUrl}`,
+        message
+      });
       res.status(BAD_REQUEST).json(message);
     } else return next();
   };

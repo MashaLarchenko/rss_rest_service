@@ -7,12 +7,8 @@ const validator = require('../../validator/validator');
 const catchErrors = require('../../errors/catchError');
 
 router.route('/').get(
-  // () => {
-  //   throw new Error('MY_ERROR');
-  // },
   catchErrors(async (req, res) => {
     const users = await usersService.getAll();
-    // throw new Error('MY_ERROR');
     res.status(OK).json(users.map(User.toResponse));
   })
 );
