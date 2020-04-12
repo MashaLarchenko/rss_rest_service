@@ -14,7 +14,6 @@ const logger = createLogger({
   transports: [
     new transports.Console({
       format: format.simple(),
-      handleExceptions: true,
       colorize: true
     }),
     new transports.File({
