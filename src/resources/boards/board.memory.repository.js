@@ -1,5 +1,6 @@
 const Board = require('./board.model.js');
 const Column = require('./column.model.js');
+const NotFoundError = require('../../errors/NotFoundError');
 
 const BoardsData = [
   new Board({
@@ -44,6 +45,9 @@ const getAll = async () => {
 
 const getBoardById = async id => {
   const board = await findById(id);
+  if (board === undefined) {
+    throw new NotFoundError(`Board with id ${id} not found`);
+  }
   return board;
 };
 
@@ -54,18 +58,24 @@ const createBoard = async newBoard => {
 
 const updateBoard = async (id, dataForUpdate) => {
   const findBoard = await getBoardById(id);
-  const updatedBoard = {
-    ...findBoard,
-    ...dataForUpdate
-  };
-  const index = BoardsData.indexOf(findBoard);
-  BoardsData[index] = updatedBoard;
-  return updatedBoard;
+  if (findBoard === undefined) {
+    throw new NotFoundError(`Board with id ${id} not found`);
+  } else {
+    const updatedBoard = {
+      ...findBoard,
+      ...dataForUpdate
+    };
+    const index = BoardsData.indexOf(findBoard);
+    BoardsData[index] = updatedBoard;
+    return updatedBoard;
+  }
 };
 
 const deleteBoard = async id => {
   const deletedBoard = await getBoardById(id);
-  if (deletedBoard) {
+  if (deletedBoard === undefined) {
+    throw new NotFoundError(`Board with id ${id} not found`);
+  } else {
     const index = BoardsData.indexOf(deletedBoard);
     BoardsData.splice(index, 1);
   }

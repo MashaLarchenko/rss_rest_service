@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { OK, NOT_FOUND } = require('http-status-codes');
+const { OK } = require('http-status-codes');
 const Board = require('./board.model');
 const boardsService = require('./board.service');
 const boardSchemas = require('./board.schema');
@@ -17,16 +17,12 @@ router.route('/:id').get(
   catchErrors(async (req, res) => {
     const { id } = req.params;
     const board = await boardsService.getBoardById(id);
-    if (board !== undefined) {
-      res.status(OK).json(board);
-    } else {
-      res.status(NOT_FOUND).json(`Board with id ${id} not found`);
-    }
+    res.status(OK).json(board);
   })
 );
 
 router.route('/').post(
-  validator.validateSchemaPost(boardSchemas.schemaForPost),
+  catchErrors(validator.validateSchemaPost(boardSchemas.schemaForPost)),
   catchErrors(async (req, res) => {
     const requestData = req.body;
     const board = await boardsService.createBoard(
@@ -37,7 +33,7 @@ router.route('/').post(
 );
 
 router.route('/:id').put(
-  validator.validateSchemaPut(boardSchemas.schemaForPut),
+  catchErrors(validator.validateSchemaPut(boardSchemas.schemaForPut)),
   catchErrors(async (req, res) => {
     const { id } = req.params;
     const requestData = req.body;
@@ -49,12 +45,8 @@ router.route('/:id').put(
 router.route('/:id').delete(
   catchErrors(async (req, res) => {
     const { id } = req.params;
-    const board = await boardsService.deleteBoard(id);
-    if (board !== undefined) {
-      res.status(204).json(`Board with id ${id} has been succesfully deleted`);
-    } else {
-      res.status(NOT_FOUND).json(`Board with id ${id} not found`);
-    }
+    await boardsService.deleteBoard(id);
+    res.status(204).json(`Board with id ${id} has been succesfully deleted`);
   })
 );
 
