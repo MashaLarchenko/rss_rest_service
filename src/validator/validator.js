@@ -8,9 +8,7 @@ const validateSchemaPost = schema => {
     });
 
     if (error) {
-      throw new InvalidRequestError(
-        `Error in POST request in ${req.originalUrl}`
-      );
+      throw new InvalidRequestError(`Error in POST request. ${error.message}`);
     } else return next();
   };
 };
@@ -23,9 +21,7 @@ const validateSchemaPut = schema => {
     });
 
     if (error !== undefined) {
-      throw new InvalidRequestError(
-        `Error in PUT request in ${req.originalUrl}`
-      );
+      throw new InvalidRequestError(`Error in PUT request. ${error.message}`);
     } else return next();
   };
 };
