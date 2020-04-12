@@ -23,7 +23,6 @@ const validateSchemaPut = schema => {
     });
 
     if (error !== undefined) {
-      console.log('validate PUT');
       throw new InvalidRequestError(
         `Error in PUT request in ${req.originalUrl}`
       );

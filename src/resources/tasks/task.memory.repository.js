@@ -86,7 +86,6 @@ const updateTask = async (id, boardId, dataForUpdate) => {
 const deleteTask = async (id, boardId) => {
   const boardTask = findByBoardId(boardId);
   let isDeleted = false;
-  console.log(boardTask);
   if (boardTask.length === 0) {
     throw new NotFoundError(`Task with boardId ${boardId} not found`);
   } else {

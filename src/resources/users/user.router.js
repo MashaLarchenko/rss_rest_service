@@ -9,7 +9,6 @@ const catchErrors = require('../../errors/catchError');
 router.route('/').get(
   catchErrors(async (req, res) => {
     const users = await usersService.getAll();
-    console.log('get user');
     res.status(OK).json(users.map(User.toResponse));
   })
 );
@@ -34,11 +33,9 @@ router.route('/').post(
 router.route('/:id').put(
   catchErrors(validator.validateSchemaPut(usersSchemas.schemaForPut)),
   catchErrors(async (req, res) => {
-    console.log('in PUT');
     const { id } = req.params;
     const requestData = req.body;
     const user = await usersService.updateUser(id, requestData);
-    console.log(user);
     res.status(OK).json(User.toResponse(user));
   })
 );

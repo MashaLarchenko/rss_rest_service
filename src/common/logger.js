@@ -1,5 +1,8 @@
 const { createLogger, format, transports } = require('winston');
+const morgan = require('morgan');
 const path = require('path');
+morgan.token('body', req => JSON.stringify(req.body));
+morgan.token('query', req => JSON.stringify(req.query));
 
 const logger = createLogger({
   level: 'silly',
@@ -9,7 +12,11 @@ const logger = createLogger({
     format.json()
   ),
   transports: [
-    new transports.Console(),
+    new transports.Console({
+      format: format.simple(),
+      handleExceptions: true,
+      colorize: true
+    }),
     new transports.File({
       filename: path.join(__dirname, '../../log/error.log'),
       level: 'error',
@@ -30,4 +37,18 @@ const logger = createLogger({
   exitOnError: true
 });
 
-module.exports = logger;
+const requestLogger = (req, res, next) => {
+  const { method, originalUrl } = req;
+  const query = JSON.stringify(req.query);
+  const body = JSON.stringify(req.body);
+
+  logger.info('Request log', {
+    Method: method,
+    Path: originalUrl,
+    'Query params': query,
+    Body: body
+  });
+  next();
+};
+
+module.exports = { logger, requestLogger };

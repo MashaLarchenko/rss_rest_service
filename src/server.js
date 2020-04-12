@@ -1,6 +1,6 @@
 const { PORT } = require('./common/config');
 const app = require('./app');
-const { logger } = require('./logger');
+const { logger } = require('./common/logger');
 
 process
   .on('uncaughtException', err => {
