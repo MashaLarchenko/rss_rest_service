@@ -1,4 +1,5 @@
 const User = require('./user.model.js');
+const NotFoundError = require('../../errors/NotFoundError');
 
 const UsersData = [
   new User({ id: '1', name: 'Masha', login: 'masha', passwold: '122345n' }),
@@ -19,9 +20,8 @@ const getAll = async () => {
 
 const getUserById = async id => {
   const user = await findById(id);
-  if (user) {
-    const { name, login } = user;
-    return { id, name, login };
+  if (user === undefined) {
+    throw new NotFoundError(`User with id ${id} not found`);
   }
   return user;
 };
@@ -33,7 +33,9 @@ const createUser = async newUser => {
 
 const updateUser = async (id, dataForUpdate) => {
   const findUser = await findById(id);
-  if (findUser) {
+  if (findUser === undefined) {
+    throw new NotFoundError(`User with id ${id} not found`);
+  } else {
     const updatedUser = {
       ...findUser,
       ...dataForUpdate
@@ -42,12 +44,13 @@ const updateUser = async (id, dataForUpdate) => {
     UsersData[index] = updatedUser;
     return updatedUser;
   }
-  return findUser;
 };
 
 const deleteUser = async id => {
   const deletedUser = await findById(id);
-  if (deletedUser) {
+  if (deletedUser === undefined) {
+    throw new NotFoundError(`User with id ${id} not found`);
+  } else {
     const index = UsersData.indexOf(deletedUser);
     UsersData.splice(index, 1);
   }

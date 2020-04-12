@@ -1,4 +1,5 @@
 const Task = require('./task.model.js');
+const NotFoundError = require('../../errors/NotFoundError');
 
 const TasksData = [
   new Task({
@@ -56,6 +57,9 @@ const getTaskById = async (id, boardId) => {
   const task = taskOnBoard.find(el => {
     return el.id === id;
   });
+  if (task === undefined) {
+    throw new NotFoundError(`Task with id ${id} not found`);
+  }
   return task;
 };
 
@@ -66,7 +70,9 @@ const createTask = async newTask => {
 
 const updateTask = async (id, boardId, dataForUpdate) => {
   const findTask = await getTaskById(id, boardId);
-  if (findTask) {
+  if (findTask === undefined) {
+    throw new NotFoundError(`Task with id ${id} not found`);
+  } else {
     const updatedTask = {
       ...findTask,
       ...dataForUpdate
@@ -75,19 +81,24 @@ const updateTask = async (id, boardId, dataForUpdate) => {
     TasksData[index] = updatedTask;
     return updatedTask;
   }
-
-  return findTask;
 };
 
 const deleteTask = async (id, boardId) => {
   const boardTask = findByBoardId(boardId);
-  if (boardTask.length !== 0) {
+  let isDeleted = false;
+  if (boardTask.length === 0) {
+    throw new NotFoundError(`Task with boardId ${boardId} not found`);
+  } else {
     boardTask.forEach(task => {
       if (task.id === id) {
         const index = TasksData.indexOf(task);
         TasksData.splice(index, 1);
+        isDeleted = true;
       }
     });
+    if (!isDeleted) {
+      throw new NotFoundError(`Task with id ${id} not found`);
+    }
   }
   return boardTask;
 };

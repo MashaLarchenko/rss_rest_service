@@ -1,25 +1,31 @@
+const InvalidRequestError = require('../errors/InvalidRequestError');
+
 const validateSchemaPost = schema => {
-  return async (req, res, next) => {
-    const { error } = await schema.validate(req.body, {
+  return (req, res, next) => {
+    const { error } = schema.validate(req.body, {
       abortEarly: false,
       allowUnknown: false
     });
 
     if (error) {
-      res.status(400).json('Bad request');
+      throw new InvalidRequestError(
+        `Error in POST request in ${req.originalUrl}`
+      );
     } else return next();
   };
 };
 
 const validateSchemaPut = schema => {
-  return async (req, res, next) => {
-    const { error } = await schema.validate(req.params, req.body, {
+  return (req, res, next) => {
+    const { error } = schema.validate(req.params, req.body, {
       abortEarly: false,
       allowUnknown: false
     });
 
-    if (error) {
-      res.status(400).json('Bad request');
+    if (error !== undefined) {
+      throw new InvalidRequestError(
+        `Error in PUT request in ${req.originalUrl}`
+      );
     } else return next();
   };
 };
