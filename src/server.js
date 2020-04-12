@@ -5,9 +5,7 @@ process
   .on('uncaughtException', err => {
     logger.error(`Uncaught Exception: ${err.message}`);
     const exit = process.exit;
-    logger.on('finish', () => {
-      exit(1);
-    });
+    exit(1);
   })
   .on('unhandledRejection', err => {
     logger.error(`Unhandled Promise Rejection: ${err.message}`);
