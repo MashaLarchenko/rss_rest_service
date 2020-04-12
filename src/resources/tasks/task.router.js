@@ -18,12 +18,7 @@ router.route('/:id').get(
   catchErrors(async (req, res) => {
     const { boardId, id } = req.params;
     const task = await tasksService.getTaskById(id, boardId);
-    // if (task !== undefined) {
     res.status(OK).json(task);
-    // } else {
-    // throw new ClientErrors('NOT_FOUND');
-    // res.status(NOT_FOUND).json(`Task with id ${id} not found`);
-    // }
   })
 );
 
@@ -44,11 +39,7 @@ router.route('/:id').put(
     const { id, boardId } = req.params;
     const requestData = req.body;
     const task = await tasksService.updateTask(id, boardId, requestData);
-    // if (task !== undefined) {
     res.status(OK).json(task);
-    // } else {
-    // res.status(NOT_FOUND).json(`Task with id ${id} not found`);
-    // }
   })
 );
 
@@ -56,11 +47,7 @@ router.route('/:id').delete(
   catchErrors(async (req, res) => {
     const { id, boardId } = req.params;
     await tasksService.deleteTask(id, boardId);
-    // if (task !== undefined) {
     res.status(204).json(`Task with id ${id} has been succesfully deleted`);
-    // } else {
-    // res.status(NOT_FOUND).json(`Task with id ${id} not found`);
-    // }
   })
 );
 
