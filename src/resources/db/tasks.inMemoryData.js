@@ -18,17 +18,7 @@ const tasksData = [
     userId: '2',
     boardId: '2',
     columnId: '2'
-  }),
-  new Task({
-    id: '3',
-    title: 'Task3',
-    order: 2,
-    description: 'task3',
-    userId: '3',
-    boardId: '3',
-    columnId: '3'
-  }),
-  new Task()
+  })
 ];
 
 module.exports = tasksData;
