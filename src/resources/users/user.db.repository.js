@@ -32,12 +32,11 @@ const updateUser = async (id, dataForUpdate) => {
 };
 
 const deleteUser = async id => {
-  const deletedUser = await findById(id);
+  const deletedUser = await User.findOneAndDelete({ _id: id });
   if (deletedUser === null) {
     throw new NotFoundError(`User with id ${id} not found`);
-  } else {
-    return (await User.deleteOne({ _id: id }).exec()).deletedCount;
   }
+  return deletedUser;
 };
 
 module.exports = { getAll, getUserById, createUser, updateUser, deleteUser };
