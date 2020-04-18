@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
-const usersData = require('./user.inMemoryData');
-const tasksData = require('./tasks.inMemoryData');
-const boardsData = require('./boards.inMemoryData');
+const usersData = require('./user.defaultDbData');
+const tasksData = require('./tasks.defaultDbData');
+const boardsData = require('./boards.defaultDbData');
 const { MONGO_CONNECTION_STRING } = require('../../common/config');
 
 const connectToDb = cb => {
