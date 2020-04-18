@@ -8,7 +8,7 @@ const logInfo = (status, path, message, stack) => {
     'error code': getStatusText(status),
     url: `Ocured an error in path ${path}`,
     message: JSON.stringify(message),
-    st: stack
+    stack
   };
 };
 
