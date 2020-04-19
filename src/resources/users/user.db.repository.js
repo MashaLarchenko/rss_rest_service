@@ -1,16 +1,12 @@
 const User = require('./user.model.js');
 const NotFoundError = require('../../errors/NotFoundError');
 
-const findById = async id => {
-  return User.findOne({ _id: id });
-};
-
 const getAll = async () => {
   return User.find({});
 };
 
 const getUserById = async id => {
-  const user = await findById(id);
+  const user = await User.findById(id);
   if (user === null) {
     throw new NotFoundError(`User with id ${id} not found`);
   }
