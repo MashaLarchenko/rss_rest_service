@@ -25,7 +25,7 @@ router.route('/').post(
   catchErrors(validator.validateSchemaPost(usersSchemas.schemaForPost)),
   catchErrors(async (req, res) => {
     const requestData = req.body;
-    const user = await usersService.createUser(User.fromRequest(requestData));
+    const user = await usersService.createUser(requestData);
     res.status(OK).json(User.toResponse(user));
   })
 );

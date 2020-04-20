@@ -3,11 +3,12 @@ const NotFoundError = require('../NotFoundError');
 const InvalidRequestError = require('../InvalidRequestError');
 const { NOT_FOUND, BAD_REQUEST, getStatusText } = require('http-status-codes');
 
-const logInfo = (status, path, message) => {
+const logInfo = (status, path, message, stack) => {
   return {
     'error code': getStatusText(status),
     url: `Ocured an error in path ${path}`,
-    message
+    message: JSON.stringify(message),
+    stack
   };
 };
 
@@ -20,12 +21,12 @@ const responsData = (status, path, message) => {
 };
 const handleError = (err, req, res, next) => {
   const { originalUrl } = req;
-  const { message } = err;
+  const { message, stack } = err;
   if (err instanceof NotFoundError) {
-    logger.error(logInfo(NOT_FOUND, originalUrl, message));
+    logger.error(logInfo(NOT_FOUND, originalUrl, message, stack));
     res.status(NOT_FOUND).json(responsData(NOT_FOUND, originalUrl, message));
   } else if (err instanceof InvalidRequestError) {
-    logger.error(logInfo(BAD_REQUEST, originalUrl, message));
+    logger.error(logInfo(BAD_REQUEST, originalUrl, message, stack));
     res
       .status(BAD_REQUEST)
       .json(responsData(BAD_REQUEST, originalUrl, message));
