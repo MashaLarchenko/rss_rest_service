@@ -1,8 +1,7 @@
 const User = require('../resources/users/user.model');
 
 const usersData = [
-  new User({ name: 'admin', login: 'admin', password: 'admin' }),
-  new User({ name: 'Sasha', login: 'sasha', password: '1334s' })
+  new User({ name: 'admin', login: 'admin', password: 'admin' })
 ];
 
 module.exports = usersData;
