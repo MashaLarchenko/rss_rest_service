@@ -1,5 +1,6 @@
 const User = require('./user.model.js');
 const NotFoundError = require('../../errors/NotFoundError');
+const ForbittenError = require('../../errors/ForbittenError');
 
 const getAll = async () => {
   return User.find({});
@@ -9,6 +10,14 @@ const getUserById = async id => {
   const user = await User.findById(id);
   if (user === null) {
     throw new NotFoundError(`User with id ${id} not found`);
+  }
+  return user;
+};
+
+const getUserByProps = async (login, password) => {
+  const user = await User.findOne({ login, password });
+  if (user === null) {
+    throw new ForbittenError('Bad login/password combination');
   }
   return user;
 };
@@ -35,4 +44,11 @@ const deleteUser = async id => {
   return deletedUser;
 };
 
-module.exports = { getAll, getUserById, createUser, updateUser, deleteUser };
+module.exports = {
+  getAll,
+  getUserById,
+  createUser,
+  updateUser,
+  deleteUser,
+  getUserByProps
+};
