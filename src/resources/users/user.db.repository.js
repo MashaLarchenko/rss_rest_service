@@ -1,6 +1,5 @@
 const User = require('./user.model.js');
 const NotFoundError = require('../../errors/NotFoundError');
-const ForbittenError = require('../../errors/ForbittenError');
 
 const getAll = async () => {
   return User.find({});
@@ -14,11 +13,8 @@ const getUserById = async id => {
   return user;
 };
 
-const getUserByProps = async (login, password) => {
-  const user = await User.findOne({ login, password });
-  if (user === null) {
-    throw new ForbittenError('Bad login/password combination');
-  }
+const getUserByProps = async login => {
+  const user = await User.findOne({ login });
   return user;
 };
 

@@ -6,17 +6,16 @@ const getAll = () => usersRepo.getAll();
 
 const getUserById = id => usersRepo.getUserById(id);
 
-const getUserByProps = async (login, password) => {
-  if (password !== 'admin') {
-    password = await createHash(password);
-  }
-  return usersRepo.getUserByProps(login, password);
+const getUserByProps = async login => {
+  const user = await usersRepo.getUserByProps(login);
+  return user;
 };
 
 const createUser = async user => {
   let { password } = user;
+  const { name, login } = user;
   password = await createHash(password);
-  const updatedUser = { ...user, password };
+  const updatedUser = { name, login, password };
   return usersRepo.createUser(updatedUser);
 };
 
