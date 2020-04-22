@@ -1,5 +1,5 @@
-const Board = require('../boards/board.model');
-const Column = require('../boards/column.model');
+const Board = require('../resources/boards/board.model');
+const Column = require('../resources/boards/column.model');
 
 const boardsData = [
   new Board({
