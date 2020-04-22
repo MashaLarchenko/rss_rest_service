@@ -5,6 +5,8 @@ const YAML = require('yamljs');
 const userRouter = require('./resources/users/user.router');
 const boardRouter = require('./resources/boards/board.router');
 const taskRouter = require('./resources/tasks/task.router');
+const loginRouter = require('./resources/login/login.router');
+const authorizate = require('./common/authorizate');
 const errors = require('./errors');
 const { requestLogger } = require('./common/logger');
 const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
@@ -17,6 +19,8 @@ app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 app.use(requestLogger);
 
+app.use(authorizate);
+
 app.use('/', (req, res, next) => {
   if (req.originalUrl === '/') {
     res.send('Service is running!');
@@ -24,6 +28,8 @@ app.use('/', (req, res, next) => {
   }
   next();
 });
+
+app.use('/login', loginRouter);
 
 app.use('/users', userRouter);
 
