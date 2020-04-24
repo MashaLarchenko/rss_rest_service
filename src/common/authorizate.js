@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const UnauthorizedError = require('../errors/UnauthorizedError');
 const { JWT_SECRET_KEY } = require('./config');
 
-const checkToken = req => {
+const checkToken = (req, next) => {
   const token = req.header('Authorization');
   try {
     if (!token) {
@@ -18,14 +18,14 @@ const checkToken = req => {
       return userData;
     }
   } catch (error) {
-    throw new UnauthorizedError('Failed to authenticate token');
+    return next(error);
   }
 };
 
 const authorizate = (req, res, next) => {
   const route = req.originalUrl;
   if (route === '/' || route === '/doc' || route === '/login') return next();
-  checkToken(req);
+  checkToken(req, next);
   next();
 };
 
