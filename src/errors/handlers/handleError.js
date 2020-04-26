@@ -1,7 +1,16 @@
 const { logger } = require('../../common/logger');
 const NotFoundError = require('../NotFoundError');
 const InvalidRequestError = require('../InvalidRequestError');
-const { NOT_FOUND, BAD_REQUEST, getStatusText } = require('http-status-codes');
+const ForbittenError = require('../ForbittenError');
+const UnauthorizedError = require('../UnauthorizedError');
+
+const {
+  NOT_FOUND,
+  BAD_REQUEST,
+  FORBIDDEN,
+  UNAUTHORIZED,
+  getStatusText
+} = require('http-status-codes');
 
 const logInfo = (status, path, message, stack) => {
   return {
@@ -30,6 +39,14 @@ const handleError = (err, req, res, next) => {
     res
       .status(BAD_REQUEST)
       .json(responsData(BAD_REQUEST, originalUrl, message));
+  } else if (err instanceof ForbittenError) {
+    logger.error(logInfo(FORBIDDEN, originalUrl, message, stack));
+    res.status(FORBIDDEN).json(responsData(FORBIDDEN, originalUrl, message));
+  } else if (err instanceof UnauthorizedError) {
+    logger.error(logInfo(UNAUTHORIZED, originalUrl, message, stack));
+    res
+      .status(UNAUTHORIZED)
+      .json(responsData(UNAUTHORIZED, originalUrl, message));
   } else return next(err);
 };
 

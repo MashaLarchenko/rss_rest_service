@@ -1,6 +1,6 @@
 const { PORT } = require('./common/config');
 const { logger } = require('./common/logger');
-const connectToDb = require('./resources/db/db.client');
+const connectToDb = require('./db/db.client');
 
 process
   .on('uncaughtException', err => {

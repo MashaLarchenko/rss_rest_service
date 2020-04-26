@@ -13,6 +13,11 @@ const getUserById = async id => {
   return user;
 };
 
+const getUserByProps = async login => {
+  const user = await User.findOne({ login });
+  return user;
+};
+
 const createUser = async newUser => {
   return User.create(newUser);
 };
@@ -35,4 +40,11 @@ const deleteUser = async id => {
   return deletedUser;
 };
 
-module.exports = { getAll, getUserById, createUser, updateUser, deleteUser };
+module.exports = {
+  getAll,
+  getUserById,
+  createUser,
+  updateUser,
+  deleteUser,
+  getUserByProps
+};

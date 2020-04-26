@@ -1,4 +1,4 @@
-const Task = require('../tasks/task.model');
+const Task = require('../resources/tasks/task.model');
 
 const tasksData = [
   new Task({
