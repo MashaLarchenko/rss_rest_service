@@ -2,6 +2,7 @@ const express = require('express');
 const swaggerUI = require('swagger-ui-express');
 const path = require('path');
 const YAML = require('yamljs');
+const helmet = require('helmet');
 const userRouter = require('./resources/users/user.router');
 const boardRouter = require('./resources/boards/board.router');
 const taskRouter = require('./resources/tasks/task.router');
@@ -14,7 +15,7 @@ const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
 const app = express();
 
 app.use(express.json());
-
+app.use(helmet());
 app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 app.use(requestLogger);
