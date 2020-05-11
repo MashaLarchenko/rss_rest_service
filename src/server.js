@@ -15,6 +15,7 @@ process
   });
 
 const app = require('./app');
+
 connectToDb(() => {
   app.listen(PORT, () =>
     console.log(`App is running on http://localhost:${PORT}`)
