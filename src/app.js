@@ -24,6 +24,7 @@ app.use(authorizate);
 
 app.use('/', (req, res, next) => {
   if (req.originalUrl === '/') {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     res.send('Service is running!');
     return;
   }
