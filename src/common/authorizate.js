@@ -24,7 +24,14 @@ const checkToken = (req, next) => {
 
 const authorizate = (req, res, next) => {
   const route = req.originalUrl;
-  if (route === '/' || route === '/doc' || route === '/login') return next();
+  if (
+    route === '/' ||
+    route === '/doc' ||
+    route === '/login' ||
+    route === '/favicon.ico'
+  ) {
+    return next();
+  }
   checkToken(req, next);
   next();
 };
